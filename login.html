@@ -23,6 +23,7 @@
     <link type="text/css" rel="stylesheet" href="/assets/css/jquery.mCustomScrollbar.css">
     <link type="text/css" rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
     <link type="text/css" rel="stylesheet" href="/assets/fonts/flaticon/font/flaticon.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <!-- Favicon icon -->
     <link rel="shortcut icon" href="/assets/img/favicon.png" type="image/x-icon" >
@@ -62,9 +63,9 @@
      style="display:inline-block;width:820px;height:300px"
      data-ad-client="ca-pub-1154916920334140"
      data-ad-slot="7249842399"></ins>
-<script>
+<!-- <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+</script> -->
                     <h3>At Room2Let</h3>
                     <p>We help you locate accomodation of your choice in your desired location.</p>
                 </div>
@@ -73,7 +74,7 @@
                 <div class="content-form-box">
                     <!--<h1 class="login-header"><i class="fa fa-sign-in"></i></h1>-->
                     <!--<p>Email</p>-->
-                   <form method="POST" action="https://room2let.com.ng/login">
+                   <form method="POST" action="http://localhost:8000/auth/login/">
                         <input type="hidden" name="_token" value="LRb8kQptoKMSilU8wzzEU68Qza77uuGFVVsBV8S7">                        <div class="form-group">
                             <input  id="email" type="email" class="form-control" name="email" value="" required autofocus placeholder="Email">
                                                      </div>
@@ -100,7 +101,7 @@
                         <a href="/" style="color:blue;"><i class="fa fa-arrow-left"></i></i> Go Home </a>
                     </div>
                     <div class="pull-right">
-                        <p><a href="reset.html">Forgot Password </a>|| <a href="register.html"> Sign Up</a></p>
+                        <p><a href="https://room2let.com.ng/password/reset">Forgot Password </a>|| <a href="http://localhost:8000/auth/signup/"> Sign Up</a></p>
                     </div>
                 </div>
             </div>
@@ -144,6 +145,41 @@
 <script src="assets/js/ie-emulation-modes-warning.js"></script>
 <!-- Custom JS Script -->
 <script  src="assets/js/app.js"></script>
+<script>
+    
+    const loginForm = document.querySelector("form")
+
+    loginForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        try {
+            const response = await fetch("http://localhost:8000/auth/login/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            });
+            const data = await response.json();
+            
+            
+
+            if (response.ok) {
+                localStorage.setItem("access_token", data.access_token);
+
+                if(data.user.role==="user"){
+                    window.location.href = "user/dashboard.html";
+                }else{
+                    window.location.href = "agents/dashboard.html";
+                }
+            } else {
+                alert(data.detail || "Invalid email or password.");
+            }
+        } catch (error) {
+            alert(`Error : ${error}`);
+        }
+    });
+</script>
 </body>
 
 <!-- Mirrored from themevessel-item.s3-website-us-east-1.amazonaws.com/xero/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 01 May 2019 20:26:42 GMT -->
