@@ -89,7 +89,7 @@
                          <div class="form-group">
                        <!--  <input type="checkbox" name="agent" class="filled-in" /> -->
                                  <label>Register As a :</label>
-                                <select class="form-control" name="agent" required>
+                                <select class="form-control" name="role" required>
                                             <option value="" selected >--Select Option--</option>
                                                 <option value="Agent">Agent</option>
                                                  <option value="User">User</option>
@@ -101,7 +101,7 @@
                             <button type="submit" class="btn btn-color btn-md btn-block">Create New Account</button>
                         </div>
                         <div class="login-footer text-center">
-                            <p>Already have an account?<a href="https://room2let.com.ng/login"> Sign In</a></p>
+                            <p>Already have an account?<a href="login.html"> Sign In</a></p>
                             <p>or<a href="/"> Go Home</a></p>
                         </div>
                     </form>
@@ -147,6 +147,52 @@
 <script src="/assets/js/ie-emulation-modes-warning.js"></script>
 <!-- Custom JS Script -->
 <script  src="/assets/js/app.js"></script>
+<script>
+    const signupForm = document.querySelector("form");
+
+    signupForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const password_confirmation = document.getElementById("password-confirm").value;
+        const role = document.querySelector("select[name='role']").value;
+
+        if (password !== password_confirmation) {
+            alert("Passwords do not match!");
+            return;
+        }
+
+        try {
+            const response = await fetch("http://localhost:8000/auth/signup/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email, password, role })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                
+                alert("Signup successful!...");
+                localStorage.setItem("access_token", data.access_token);
+
+                if(data.user.role==="user"){
+                    window.location.href = "user/dashboard.html";
+                }else{
+                    window.location.href = "agents/dashboard.html";
+                }
+
+            } else {
+                alert(data.detail || "Signup failed. Please try again.");
+            }
+        } catch (error) {
+            alert(`Error: ${error}`);
+        }
+    });
+</script>
+
 </body>
 
 <!-- Mirrored from themevessel-item.s3-website-us-east-1.amazonaws.com/xero/register.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 01 May 2019 20:26:42 GMT -->

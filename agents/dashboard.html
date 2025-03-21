@@ -106,20 +106,46 @@
                                                 <i class="fa fa-user"></i>
                                                 me
                                             </a>
-                                            <a class="btn btn-sm btn-white-sm-outline btn-round signup-link" href="https://room2let.com.ng/logout" onclick="event.preventDefault();
-                                    document.getElementById('logout-form').submit();">
+                                            <a class="btn btn-sm btn-white-sm-outline btn-round signup-link" id="logoutBtn">
                                                 <i class="fa fa-power-off">Logout</i>
                                             </a>
-                                            <form id="logout-form" action="https://room2let.com.ng/logout" method="POST" style="display: none;">
-                                                <input type="hidden" name="_token" value="SWRSPAUrPNhMbASKUjSaptJ2jsFFrXo2ToZRC9hk">
-                                            </form>
+                                            
                                         </li>
 </li>
-<li>
-    <form id="logout-form" action="https://room2let.com.ng/logout" method="POST" style="display: none;">
-        <input type="hidden" name="_token" value="SWRSPAUrPNhMbASKUjSaptJ2jsFFrXo2ToZRC9hk">
-    </form>
-</li>
+
+<!-- log-out -->
+<script>
+        document.getElementById("logoutBtn").addEventListener("click", async function () {
+            const refreshToken = localStorage.getItem("access_token"); // Get token from localStorage
+            localStorage(refreshToken)
+
+            // if (!refreshToken) {
+            //     alert("No refresh token found. Please log in first.");
+            //     return;
+            // }
+
+            // try {
+            //     const response = await fetch("http://localhost:8000/auth/logout/", {
+            //         method: "POST",
+            //         headers: {
+            //             "Content-Type": "application/json",
+            //             // "Authorization": `Bearer ${localStorage.getItem("refreshToken")}`
+            //         },
+            //         body: JSON.stringify({ refresh: refreshToken })
+            //     });
+
+            //     if (response.ok) {
+            //         alert("Logout successful!");
+            //         localStorage.removeItem("access_token");
+            //         window.location.href = "index.html"; 
+            //     } else {
+            //         alert("Logout failed. Please try again.");
+            //     }
+            // } catch (error) {
+            //     alert(`Error: ${error}`);
+            // }
+        });
+    </script>
 </ul></ul></div></nav></div></div></div></header>
 <!-- main header end -->
 <!-- Sub banner start -->

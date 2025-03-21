@@ -165,7 +165,9 @@
             
 
             if (response.ok) {
-                localStorage.setItem("access_token", data.access_token);
+                console.log(data)
+                localStorage.setItem("access_token", data.token);
+                localStorage.setItem("refresh_token", data.refresh)                
 
                 if(data.user.role==="user"){
                     window.location.href = "user/dashboard.html";
